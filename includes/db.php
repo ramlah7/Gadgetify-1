@@ -3,9 +3,9 @@
 $servername="localhost";
 $username = "root";
 $password = "";
-$dbname= "gadgetify_db";
+$dbname= "Gadgetify";
 
-$conn = new sqli($servername,$username,$password,$dbname);
+$conn = new mysqli($servername,$username,$password,$dbname, 3307);
 
 if ( $conn -> connect_error){
     die("connection failed.. ".$conn->connect_error);

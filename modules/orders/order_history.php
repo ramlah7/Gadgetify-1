@@ -1,0 +1,1 @@
+<?php include "../includes/auth_check.php"; ?>

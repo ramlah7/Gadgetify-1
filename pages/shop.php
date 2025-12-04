@@ -1,6 +1,6 @@
 <?php 
-include 'includes/header.php'; 
-include 'includes/db.php'; 
+require_once __DIR__ . '/../includes/db.php';
+require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <section class="shop-content container">
@@ -14,13 +14,12 @@ include 'includes/db.php';
 
         <div class="product-grid">
             <?php
-            // SQL query to select ALL products
-            $sql = "SELECT id, name, price, image FROM products ORDER BY created_at DESC";
+            // Working SQL query without created_at
+            $sql = "SELECT id, name, price, image FROM products ORDER BY id DESC";
             $result = $conn->query($sql);
 
-            if ($result->num_rows > 0) {
+            if ($result && $result->num_rows > 0) {
                 while($row = $result->fetch_assoc()) {
-                    // Output the HTML product card structure, similar to index.php
                     echo '<div class="product-card">';
                     echo '    <img src="assets/images/' . htmlspecialchars($row["image"]) . '" alt="' . htmlspecialchars($row["name"]) . '">';
                     echo '    <div class="product-info">';
@@ -41,5 +40,5 @@ include 'includes/db.php';
 </section>
 
 <?php 
-include 'includes/footer.php'; 
+include '../../includes/footer.php'; 
 ?>
