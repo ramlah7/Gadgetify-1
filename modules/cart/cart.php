@@ -12,9 +12,11 @@ if (!isset($_SESSION["user_id"])) {
 $user_id = $_SESSION["user_id"];
 
 // Fetch cart items
-$sql = "SELECT c.id AS cart_id, p.id AS product_id, p.name, p.price, p.image, c.quantity
-        FROM cart c
-        INNER JOIN products p ON c.product_id = p.id
+$sql = "SELECT ci.id AS cart_item_id, p.id AS product_id, p.name, p.price, 
+               p.image_url, ci.quantity
+        FROM cart_items ci
+        JOIN cart c ON ci.cart_id = c.id
+        JOIN products p ON ci.product_id = p.id
         WHERE c.user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);

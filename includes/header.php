@@ -3,9 +3,13 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-$cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+// $cart_count = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 $logged_in = isset($_SESSION['user_id']);
 $role = $_SESSION['role'] ?? 'guest';
+$cart_count = 0;
+if ($logged_in && $role === 'customer') {
+    $cart_count = $_SESSION['cart_item_count'] ?? 0;
+}
 ?>
 
 <!DOCTYPE html>
