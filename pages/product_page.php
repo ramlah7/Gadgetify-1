@@ -21,7 +21,7 @@ if ($result && $result->num_rows == 1) {
 ?>
 
 <section class="product-details container">
-    <img src="assets/images/<?php echo htmlspecialchars($product['image_url']); ?>" width="300">
+    <img src="../assets/images/<?php echo htmlspecialchars($product['image_url']); ?>" width="300">
 
     <h2><?php echo htmlspecialchars($product['name']); ?></h2>
     <p class="price">$<?php echo number_format($product['price'], 2); ?></p>

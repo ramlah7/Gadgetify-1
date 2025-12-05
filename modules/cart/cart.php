@@ -11,6 +11,20 @@ if (!isset($_SESSION["user_id"])) {
 
 $user_id = $_SESSION["user_id"];
 
+// Get user's cart ID
+$cart_query = $conn->prepare("SELECT id FROM cart WHERE user_id = ?");
+$cart_query->bind_param("i", $user_id);
+$cart_query->execute();
+$cart_result = $cart_query->get_result();
+
+if ($cart_result->num_rows === 0) {
+    $cart_id = null;
+} else {
+    $cart_row = $cart_result->fetch_assoc();
+    $cart_id = $cart_row['id'];
+}
+$cart_query->close();
+
 // Fetch cart items
 $sql = "SELECT ci.id AS cart_item_id, p.id AS product_id, p.name, p.price, 
                p.image_url, ci.quantity
@@ -29,6 +43,23 @@ $total = 0;
 
 <div class="container" style="margin-top:40px;">
     <h2>Your Cart</h2>
+
+    <!-- Display success/error messages -->
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= htmlspecialchars($_SESSION['success_message']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['success_message']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['error_message'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= htmlspecialchars($_SESSION['error_message']) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
 
     <?php if ($result->num_rows > 0): ?>
         <table class="table table-bordered" style="margin-top:20px;">
@@ -52,7 +83,7 @@ $total = 0;
                     <td><?= htmlspecialchars($row["name"]) ?></td>
 
                     <td>
-                        <img src="../assets/images/<?= htmlspecialchars($row["image"]) ?>"
+                        <img src="../../assets/images/<?= htmlspecialchars($row["image_url"]) ?>"
                              width="70" height="70" style="object-fit:cover;">
                     </td>
 
@@ -63,7 +94,7 @@ $total = 0;
                     <td>$<?= number_format($subtotal, 2) ?></td>
 
                     <td>
-                        <a href="remove.php?id=<?= $row["cart_id"] ?>" 
+                        <a href="remove.php?id=<?= $row["cart_item_id"] ?>" 
                            class="btn btn-danger btn-sm">Remove</a>
                     </td>
                 </tr>
@@ -73,7 +104,7 @@ $total = 0;
 
         <h3>Total: $<?= number_format($total, 2) ?></h3>
 
-        <a href="../checkout.php" class="btn btn-primary" style="margin-top:10px;">
+        <a href="../orders/create_order.php" class="btn btn-primary" style="margin-top:10px;">
             Proceed to Checkout
         </a>
 
