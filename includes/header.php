@@ -40,7 +40,7 @@ $role = $_SESSION['role'] ?? 'guest';
                     <!-- -------------------------- -->
                     <li><a href="/Gadgetify/modules/admin/dashboard.php">Admin Dashboard</a></li>
                     <li><a href="/Gadgetify/modules/admin/add_product.php">Add Product</a></li>
-                    <li><a href="/Gadgetify/modules/admin/products_list.php">Manage Products</a></li>
+                    <li><a href="/Gadgetify/modules/admin/product_list.php">Manage Products</a></li>
                     <li><a href="/Gadgetify/modules/auth/logout.php">Logout</a></li>
 
                 <?php elseif ($role === 'customer'): ?>

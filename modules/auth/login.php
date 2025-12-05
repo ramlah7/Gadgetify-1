@@ -33,15 +33,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $stmt->fetch();
 
             if (password_verify($password, $hash)) {
+                // After verifying email + password
 
-                // set session values
-                $_SESSION["user_id"] = $id;
-                $_SESSION["user_name"] = $name;
-                $_SESSION["role"] = $role;   // VERY IMPORTANT
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_name'] = $user['name'];
+                $_SESSION['role'] = $user['role'];  // "admin" or "customer"
 
-                // redirect
-                header("Location: /Gadgetify/pages/dashboard.php");
+                // REDIRECT BASED ON ROLE
+                if ($user['role'] === 'admin') {
+                    header("Location: /Gadgetify/modules/admin/dashboard.php");
+                } else {
+                    header("Location: /Gadgetify/pages/dashboard.php");
+                }
                 exit;
+
             } else {
                 $error = "Incorrect password.";
             }

@@ -1,6 +1,6 @@
 
 <?php
-require_once __DIR__ . '/../auth/admin_check.php';
+require_once __DIR__ . '/../../includes/admin_check.php';
 require_once __DIR__ . '/../../includes/header.php';
 ?>
 <style>

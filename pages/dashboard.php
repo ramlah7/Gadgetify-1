@@ -1,9 +1,16 @@
-<?php include "../includes/auth_check.php"; ?>
-<?php 
+<?php
+require_once __DIR__ . '/../../includes/admin_check.php';
+require_once __DIR__ . '/../includes/auth_check.php';
+
 require_once __DIR__ . '/../includes/db.php';
 require_once __DIR__ . '/../includes/header.php';
 ?>
-
+<?php
+if ($_SESSION['role'] === 'admin') {
+    header("Location: /Gadgetify/modules/admin/dashboard.php");
+    exit;
+}
+?>
 <section class="hero-section">
     <div class="container">
         <h1>Upgrade Your Tech Lifestyle</h1>
